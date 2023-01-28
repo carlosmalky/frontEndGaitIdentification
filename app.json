@@ -33,9 +33,7 @@
       },
       "package": "com.camalkys.gaitidentification"
     },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
+    "web": {},
     "extra": {
       "eas": {
         "projectId": "42e118db-9d42-4930-81a6-5f42a8312142"
