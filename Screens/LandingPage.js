@@ -31,14 +31,18 @@ export default function LandingPage({ navigation }) {
       // setImage(result.uri);
       // console.log("Result type: " + result.type);
       if (result.type == "video") {
-        // console.log("Result type: " + result.type);
-        // console.log("uri: ", result.uri);
+        console.log("Result type: " + result.type);
+        console.log("uri: ", result.uri);
         setVideo(result.uri);
-
-        navigation.navigate("SelectedPage", {
-          itemId: 0,
-          otherParam: video,
-        });
+        console.log("video: " + video);
+        if (video != null) {
+          navigation.navigate("SelectedPage", {
+            itemId: 0,
+            otherParam: video,
+          });
+        } else {
+          Alert.alert("Please try selecting video again");
+        }
       } else {
         console.log("Not video type");
         setImage(result.uri);
@@ -72,25 +76,15 @@ export default function LandingPage({ navigation }) {
     <View style={styles.container}>
       <View style={styles.topContainer}>
         <ImageBackground
-          source={require("../assets/walking-background.png")}
-          resizeMode="cover"
+          source={require("../assets/walking-transparent.png")}
+          resizeMode="contain"
           style={styles.backgroundImage}
-        >
-          {/* <Video
-            style={styles.tempVideo}
-            useNativeControls
-            resizeMode="contain"
-            isLooping
-            source={{
-              uri: video,
-            }}
-          /> */}
-        </ImageBackground>
+        ></ImageBackground>
       </View>
       <View style={styles.bottomContainer}>
         <LinearGradient
           // Background Linear Gradient
-          colors={["rgba(155,168,213, 08)", "transparent"]}
+          colors={["rgba(155,168,213, 0)", "transparent"]}
           style={styles.bottomGradient}
         >
           <Text style={styles.title}>Gait Identification</Text>
@@ -117,7 +111,7 @@ export default function LandingPage({ navigation }) {
             <Text style={styles.buttonText}>Choose from Gallery</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity
+          {/* <TouchableOpacity
             title="Upload from Gallery"
             style={styles.buttonContainer}
             onPress={sendToBackend}
@@ -127,24 +121,7 @@ export default function LandingPage({ navigation }) {
               source={require("../assets/upload.png")}
             ></Image>
             <Text style={styles.buttonText}>Upload</Text>
-          </TouchableOpacity>
-
-          {/* Demo to upload pictures/videos */}
-          {/* <View
-            style={{ flex: 1, alignItems: "center", justifyContent: "center" }}
-          >
-            <Button
-              title="Pick an image from camera roll"
-              onPress={pickImage}
-            />
-            {image && (
-              <Image
-                source={{ uri: image }}
-                style={{ width: 200, height: 200 }}
-              />
-            )}
-          </View> */}
-          {/* Demo to upload pictures/videos */}
+          </TouchableOpacity> */}
 
           <TouchableOpacity
             title="Record Video"
@@ -181,7 +158,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    backgroundColor: "rgb(207,145,215)",
     justifyContent: "start",
     alignItems: "center",
   },
@@ -189,7 +165,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "end",
     alignContent: "center",
   },
   tempVideo: {
@@ -198,12 +174,12 @@ const styles = StyleSheet.create({
     height: "80%",
   },
   title: {
-    color: "white",
+    color: "rgb(42,42,42)",
     fontSize: 38,
     marginTop: "8%",
   },
   description: {
-    color: "#E6E6E6",
+    color: "rgb(42,42,42)",
     width: "55%",
     margin: "6%",
     fontSize: 18,
@@ -213,7 +189,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "start",
-    backgroundColor: "rgba(255,255,255,0.45)",
+    backgroundColor: "rgba(85,96,128,0.45)",
     paddingTop: "5%",
     paddingBottom: "5%",
     paddingLeft: "10%",

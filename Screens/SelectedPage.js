@@ -46,9 +46,8 @@ export default function SelectedPage({ route, navigation }) {
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        <Text>Details Screen</Text>
-        {/* <Text>itemId: {JSON.stringify(itemId)}</Text>
-        <Text>otherParam: {JSON.stringify(otherParam)}</Text> */}
+        {/* <Text>itemId: {JSON.stringify(itemId)}</Text> */}
+        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
 
         <Video
           style={styles.tempVideo}
@@ -64,7 +63,7 @@ export default function SelectedPage({ route, navigation }) {
       <View style={styles.bottomContainer}>
         <LinearGradient
           // Background Linear Gradient
-          colors={["rgba(155,168,213, 08)", "transparent"]}
+          colors={["rgba(155,168,213, 0)", "transparent"]}
           style={styles.bottomGradient}
         >
           <Text style={styles.description}>Please confirm selected video</Text>
@@ -116,7 +115,6 @@ const styles = StyleSheet.create({
     display: "flex",
     flexDirection: "column",
     width: "100%",
-    backgroundColor: "rgb(207,145,215)",
     justifyContent: "start",
     alignItems: "center",
   },
@@ -124,7 +122,7 @@ const styles = StyleSheet.create({
     width: "100%",
     height: "100%",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "end",
     alignContent: "center",
   },
   tempVideo: {
@@ -133,12 +131,12 @@ const styles = StyleSheet.create({
     height: "80%",
   },
   title: {
-    color: "white",
+    color: "rgb(42,42,42)",
     fontSize: 38,
     marginTop: "8%",
   },
   description: {
-    color: "#E6E6E6",
+    color: "rgb(42,42,42)",
     width: "55%",
     margin: "6%",
     fontSize: 18,
@@ -148,7 +146,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "start",
-    backgroundColor: "rgba(255,255,255,0.45)",
+    backgroundColor: "rgba(85,96,128,0.45)",
     paddingTop: "5%",
     paddingBottom: "5%",
     paddingLeft: "10%",
@@ -160,7 +158,6 @@ const styles = StyleSheet.create({
   buttonText: {
     fontSize: 20,
     color: "rgb(42,42,42)",
-    // backgroundColor: "red",
     width: "100%",
     textAlign: "center",
   },
