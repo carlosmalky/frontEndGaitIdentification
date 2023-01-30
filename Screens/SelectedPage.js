@@ -16,10 +16,8 @@ import React, { useState, useEffect } from "react";
 import { Video, AVPlaybackStatus } from "expo-av";
 
 export default function SelectedPage({ route, navigation }) {
-  const [image, setImage] = useState(null);
-  const [video, setVideo] = useState(null);
   /* Get the param */
-  const { itemId, otherParam } = route.params;
+  const { videoId, videoUri } = route.params;
 
   const pickImageVideo = async () => {
     // No permissions request is necessary for launching the image library
@@ -40,8 +38,8 @@ export default function SelectedPage({ route, navigation }) {
         console.log("video: " + newVideoUri);
         if (newVideoUri != null) {
           navigation.navigate("SelectedPage", {
-            itemId: 0,
-            otherParam: newVideoUri,
+            videoId: 0,
+            videoUri: newVideoUri,
           });
         } else {
           Alert.alert("An error has ocurred, please try again");
@@ -63,19 +61,12 @@ export default function SelectedPage({ route, navigation }) {
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        videoTitle: "Test Title",
-        videoDuration: "12:34",
+        videoId: videoId,
+        videoUri: videoUri,
       }),
     });
 
     const jsonData = await fetchResponse.json();
-
-    console.log(jsonData);
-    console.log("holda dudelskjdflksjdfldskjd");
-  }
-
-  function baz() {
-    console.log("hola desde sdfsadfs");
   }
 
   return (
@@ -88,7 +79,7 @@ export default function SelectedPage({ route, navigation }) {
           isLooping
           shouldPlay
           source={{
-            uri: otherParam,
+            uri: videoUri,
           }}
         />
       </View>
@@ -105,7 +96,7 @@ export default function SelectedPage({ route, navigation }) {
           <TouchableOpacity
             title="Upload from Gallery"
             style={styles.buttonContainer}
-            onPress={baz}
+            onPress={sendToBackend}
           >
             <Image
               style={styles.buttonImg}

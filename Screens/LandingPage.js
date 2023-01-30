@@ -34,8 +34,8 @@ export default function LandingPage({ navigation }) {
         console.log("video: " + newVideoUri);
         if (newVideoUri != null) {
           navigation.navigate("SelectedPage", {
-            itemId: 0,
-            otherParam: newVideoUri,
+            videoId: 0,
+            videoUri: newVideoUri,
           });
         } else {
           Alert.alert("An error has ocurred, please try again");
