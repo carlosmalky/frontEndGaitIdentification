@@ -21,6 +21,37 @@ export default function SelectedPage({ route, navigation }) {
   /* Get the param */
   const { itemId, otherParam } = route.params;
 
+  const pickImageVideo = async () => {
+    // No permissions request is necessary for launching the image library
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      if (result.type == "video") {
+        console.log("Result type: " + result.type);
+        console.log("uri: ", result.uri);
+
+        const newVideoUri = result.uri;
+
+        console.log("video: " + newVideoUri);
+        if (newVideoUri != null) {
+          navigation.navigate("SelectedPage", {
+            itemId: 0,
+            otherParam: newVideoUri,
+          });
+        } else {
+          Alert.alert("An error has ocurred, please try again");
+        }
+      } else {
+        Alert.alert("Not video type");
+      }
+    }
+  };
+
   async function sendToBackend() {
     console.log("Uplaod pressed");
     // FETCH API
@@ -43,12 +74,13 @@ export default function SelectedPage({ route, navigation }) {
     console.log("holda dudelskjdflksjdfldskjd");
   }
 
+  function baz() {
+    console.log("hola desde sdfsadfs");
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
-        {/* <Text>itemId: {JSON.stringify(itemId)}</Text> */}
-        <Text>otherParam: {JSON.stringify(otherParam)}</Text>
-
         <Video
           style={styles.tempVideo}
           useNativeControls
@@ -66,12 +98,14 @@ export default function SelectedPage({ route, navigation }) {
           colors={["rgba(155,168,213, 0)", "transparent"]}
           style={styles.bottomGradient}
         >
-          <Text style={styles.description}>Please confirm selected video</Text>
+          <Text style={styles.description}>
+            Please confirm selected video or upload a new one
+          </Text>
 
           <TouchableOpacity
             title="Upload from Gallery"
             style={styles.buttonContainer}
-            onPress={console.log("sending video to BE")}
+            onPress={baz}
           >
             <Image
               style={styles.buttonImg}
@@ -83,12 +117,12 @@ export default function SelectedPage({ route, navigation }) {
           <TouchableOpacity
             title="Upload from Gallery"
             style={styles.buttonContainer}
-            onPress={console.log("selecting new video")}
+            onPress={pickImageVideo}
           >
-            <Image
+            {/* <Image
               style={styles.buttonImg}
               source={require("../assets/upload.png")}
-            ></Image>
+            ></Image> */}
             <Text style={styles.buttonText}>Select New</Text>
           </TouchableOpacity>
         </LinearGradient>
@@ -126,9 +160,11 @@ const styles = StyleSheet.create({
     alignContent: "center",
   },
   tempVideo: {
+    marginTop: "10%",
     alignSelf: "center",
     width: "80%",
     height: "80%",
+    borderRadius: "20%",
   },
   title: {
     color: "rgb(42,42,42)",

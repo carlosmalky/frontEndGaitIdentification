@@ -15,9 +15,6 @@ import React, { useState, useEffect } from "react";
 import { Video, AVPlaybackStatus } from "expo-av";
 
 export default function LandingPage({ navigation }) {
-  const [image, setImage] = useState(null);
-  const [video, setVideo] = useState(null);
-
   const pickImageVideo = async () => {
     // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
@@ -28,24 +25,23 @@ export default function LandingPage({ navigation }) {
     });
 
     if (!result.cancelled) {
-      // setImage(result.uri);
-      // console.log("Result type: " + result.type);
       if (result.type == "video") {
         console.log("Result type: " + result.type);
         console.log("uri: ", result.uri);
-        setVideo(result.uri);
-        console.log("video: " + video);
-        if (video != null) {
+
+        const newVideoUri = result.uri;
+
+        console.log("video: " + newVideoUri);
+        if (newVideoUri != null) {
           navigation.navigate("SelectedPage", {
             itemId: 0,
-            otherParam: video,
+            otherParam: newVideoUri,
           });
         } else {
-          Alert.alert("Please try selecting video again");
+          Alert.alert("An error has ocurred, please try again");
         }
       } else {
-        console.log("Not video type");
-        setImage(result.uri);
+        Alert.alert("Not video type");
       }
     }
   };
@@ -126,7 +122,7 @@ export default function LandingPage({ navigation }) {
           <TouchableOpacity
             title="Record Video"
             style={styles.buttonContainer}
-            onPress={() => Alert.alert("Open camera")}
+            onPress={() => Alert.alert("Feature coming soon")}
           >
             <Image
               style={styles.buttonImg}
