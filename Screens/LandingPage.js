@@ -13,25 +13,29 @@ import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
 import { Video, AVPlaybackStatus } from "expo-av";
+import * as FileSystem from "expo-file-system";
 
 export default function LandingPage({ navigation }) {
   const pickImageVideo = async () => {
-    // No permissions request is necessary for launching the image library
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: true,
       aspect: [4, 3],
+      base64: true,
       quality: 1,
     });
 
     if (!result.cancelled) {
       if (result.type == "video") {
-        console.log("Result type: " + result.type);
-        console.log("uri: ", result.uri);
+        console.log(JSON.stringify(result));
 
         const newVideoUri = result.uri;
 
-        console.log("video: " + newVideoUri);
+        let videoBase64 = await FileSystem.readAsStringAsync(result.uri, {
+          encoding: FileSystem.EncodingType.Base64,
+        });
+        // console.log(videoBase64);
+
         if (newVideoUri != null) {
           navigation.navigate("SelectedPage", {
             videoId: 0,
