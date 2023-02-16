@@ -15,6 +15,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import SelectedPage from "./Screens/SelectedPage";
 import LandingPage from "./Screens/LandingPage";
+import ResultPage from "./Screens/ResultPage";
 
 function HomeScreen({ navigation }) {
   return (
@@ -28,6 +29,10 @@ function HomeScreen({ navigation }) {
         title="Go to Landing Page"
         onPress={() => navigation.navigate("LandingPage")}
       />
+      <Button
+        title="Go to Result Page"
+        onPress={() => navigation.navigate("ResultPage")}
+      />
     </View>
   );
 }
@@ -40,6 +45,7 @@ function App() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={LandingPage} />
         <Stack.Screen name="SelectedPage" component={SelectedPage} />
+        <Stack.Screen name="ResultPage" component={ResultPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );

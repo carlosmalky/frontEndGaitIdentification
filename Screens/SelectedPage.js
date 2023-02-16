@@ -33,7 +33,7 @@ export default function SelectedPage({ route, navigation }) {
 
   const pickImageVideo = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: ImagePicker.MediaTypeOptions.Videos,
       allowsEditing: true,
       aspect: [4, 3],
       base64: true,
@@ -42,7 +42,6 @@ export default function SelectedPage({ route, navigation }) {
     console.log(JSON.stringify(result));
     if (!result.cancelled) {
       if (result.type == "video") {
-        console.log("JSON: ", JSON.stringify(result));
         const newVideoUri = result.uri;
 
         if (newVideoUri != null) {
@@ -103,7 +102,25 @@ export default function SelectedPage({ route, navigation }) {
 
     const jsonData = await fetchResponse.json();
 
-    console.log("Recieved jsonData: ", jsonData);
+    let returnedVal = jsonData["userFound"];
+    let returnedName = jsonData["userName"];
+    let returnedId = jsonData["userID"];
+    let returnedImage = jsonData["userImageBase64"];
+
+    resultPage(returnedVal, returnedName, returnedId, returnedImage);
+  }
+
+  async function resultPage(response, resultName, resultId, returnedImage) {
+    if (response == "true") {
+      console.log(response, resultName, resultId);
+      navigation.navigate("ResultPage", {
+        userName: resultName,
+        userID: resultId,
+        userImage: returnedImage,
+      });
+    } else {
+      console.log("User not found");
+    }
   }
 
   return (
@@ -143,10 +160,6 @@ export default function SelectedPage({ route, navigation }) {
             style={styles.buttonContainer}
             onPress={pickImageVideo}
           >
-            {/* <Image
-              style={styles.buttonImg}
-              source={require("../assets/upload.png")}
-            ></Image> */}
             <Text style={styles.buttonText}>Select New</Text>
           </TouchableOpacity>
         </LinearGradient>

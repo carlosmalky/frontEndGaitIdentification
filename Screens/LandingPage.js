@@ -27,14 +27,7 @@ export default function LandingPage({ navigation }) {
 
     if (!result.cancelled) {
       if (result.type == "video") {
-        console.log(JSON.stringify(result));
-
         const newVideoUri = result.uri;
-
-        let videoBase64 = await FileSystem.readAsStringAsync(result.uri, {
-          encoding: FileSystem.EncodingType.Base64,
-        });
-        // console.log(videoBase64);
 
         if (newVideoUri != null) {
           navigation.navigate("SelectedPage", {
@@ -50,28 +43,6 @@ export default function LandingPage({ navigation }) {
     }
   };
 
-  async function sendToBackend() {
-    console.log("Uplaod pressed");
-    // FETCH API
-
-    const fetchResponse = await fetch("http://127.0.0.1:5000/addMedia", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        videoTitle: "Test Title",
-        videoDuration: "12:34",
-      }),
-    });
-
-    const jsonData = await fetchResponse.json();
-
-    console.log(jsonData);
-    console.log("holda dudelskjdflksjdfldskjd");
-  }
-
   return (
     <View style={styles.container}>
       <View style={styles.topContainer}>
@@ -83,7 +54,6 @@ export default function LandingPage({ navigation }) {
       </View>
       <View style={styles.bottomContainer}>
         <LinearGradient
-          // Background Linear Gradient
           colors={["rgba(155,168,213, 0)", "transparent"]}
           style={styles.bottomGradient}
         >
@@ -96,13 +66,6 @@ export default function LandingPage({ navigation }) {
             title="Upload from Gallery"
             style={styles.buttonContainer}
             onPress={pickImageVideo}
-            // onPress={
-            //   (
-            //   navigation.navigate("SelectedPage", {
-            //     itemId: 86,
-            //     otherParam: "anything you want here",
-            //   }))
-            // }
           >
             <Image
               style={styles.buttonImg}
@@ -110,18 +73,6 @@ export default function LandingPage({ navigation }) {
             ></Image>
             <Text style={styles.buttonText}>Choose from Gallery</Text>
           </TouchableOpacity>
-
-          {/* <TouchableOpacity
-            title="Upload from Gallery"
-            style={styles.buttonContainer}
-            onPress={sendToBackend}
-          >
-            <Image
-              style={styles.buttonImg}
-              source={require("../assets/upload.png")}
-            ></Image>
-            <Text style={styles.buttonText}>Upload</Text>
-          </TouchableOpacity> */}
 
           <TouchableOpacity
             title="Record Video"
