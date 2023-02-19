@@ -62,7 +62,7 @@ export default function SelectedPage({ route, navigation }) {
     console.log("Upload pressed");
     // FETCH API
 
-    const fetchResponse = await fetch("http://127.0.0.1:5000/addMedia", {
+    const fetchResponse = await fetch("http://192.168.1.144:5000//addMedia", {
       method: "POST",
       headers: {
         Accept: "application/json",
@@ -88,17 +88,20 @@ export default function SelectedPage({ route, navigation }) {
     });
 
     // FETCH API
-    const fetchResponse = await fetch("http://127.0.0.1:5000/base64Endpoint", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        videoBase64: videoBase64,
-        videoUri: videoUri,
-      }),
-    });
+    const fetchResponse = await fetch(
+      "rhttp://192.168.1.144:5000//base64Endpoint",
+      {
+        method: "POST",
+        headers: {
+          Accept: "application/json",
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          videoBase64: videoBase64,
+          videoUri: videoUri,
+        }),
+      }
+    );
 
     const jsonData = await fetchResponse.json();
 
