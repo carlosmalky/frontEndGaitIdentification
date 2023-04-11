@@ -9,15 +9,44 @@ import {
   Alert,
   TouchableOpacity,
   Image,
+  Animated,
 } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import * as ImagePicker from "expo-image-picker";
 import React, { useState, useEffect } from "react";
 import { Video, AVPlaybackStatus } from "expo-av";
 import * as FileSystem from "expo-file-system";
+import Modal from "react-native-modal";
 
 export default function SelectedPage({ route, navigation }) {
   const { videoId, videoUri } = route.params;
+  const [isLoading, setIsLoading] = useState(false);
+
+  const funFactsAr = [
+    "Google CEO Sundar Pichai claimed that artificial intelligence (AI) would be more transformative to humanity as a species than electricity and fire.",
+    "Global revenues from AI for enterprise applications are projected to grow from $1.62B in 2018 to $31.2B in 2025.",
+    "As reported by Gartner, by 2025, more than 75% of venture and seed capital investors will use AI and data analytics to gather information.",
+    "Alphabet's Google and Nvidia are two of the world's top most innovative AI companies.",
+    "With other collaborators, Microsoft hosted the 3rd online workshop on video analytics and intelligent edges in March 2022.",
+    "A fun AI fact: according to a study by Bespoken, Google’s AI far excelled that of Alexa and Siri.",
+    "n 2020, Elon Musk predicted that AI will overtake humans and grow more intelligent than our species by 2025.",
+    "The world’s top universities have increased their AI-related education over the last few years, according to the AI Index.",
+  ];
+
+  const spinValue = new Animated.Value(0);
+
+  Animated.loop(
+    Animated.timing(spinValue, {
+      toValue: 1,
+      duration: 3000,
+      useNativeDriver: true,
+    })
+  ).start();
+
+  const spin = spinValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "360deg"],
+  });
 
   console.log(" - - Selection Page Begins here - - ");
   console.log("Video ID: ", videoId);
@@ -49,6 +78,7 @@ export default function SelectedPage({ route, navigation }) {
             videoId: 0,
             videoUri: newVideoUri,
           });
+          console.log(videoId);
         } else {
           Alert.alert("An error has ocurred, please try again");
         }
@@ -58,30 +88,9 @@ export default function SelectedPage({ route, navigation }) {
     }
   };
 
-  async function sendToBackend() {
-    console.log("Upload pressed");
-    // FETCH API
-
-    const fetchResponse = await fetch("http://192.168.1.144:5000//addMedia", {
-      method: "POST",
-      headers: {
-        Accept: "application/json",
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        videoId: "id test from FE",
-        videoUri: "uri test from FE",
-      }),
-    });
-
-    const jsonData = await fetchResponse.json();
-
-    console.log("Recieved jsonData: ", jsonData);
-  }
-
   async function sendBase64toBE() {
     console.log("Upload base64 pressed");
-
+    setIsLoading(true);
     // Encode to Base64
     const videoBase64 = await FileSystem.readAsStringAsync(videoUri, {
       encoding: FileSystem.EncodingType.Base64,
@@ -89,7 +98,8 @@ export default function SelectedPage({ route, navigation }) {
 
     // FETCH API
     const fetchResponse = await fetch(
-      "rhttp://192.168.1.144:5000//base64Endpoint",
+      // Update IP
+      "http://192.168.1.144:5000/base64Endpoint",
       {
         method: "POST",
         headers: {
@@ -109,8 +119,16 @@ export default function SelectedPage({ route, navigation }) {
     let returnedName = jsonData["userName"];
     let returnedId = jsonData["userID"];
     let returnedImage = jsonData["userImageBase64"];
+    let returnedVideo = jsonData["userVideoBase64"];
+    setIsLoading(false);
 
-    resultPage(returnedVal, returnedName, returnedId, returnedImage);
+    resultPage(
+      returnedVal,
+      returnedName,
+      returnedId,
+      returnedImage,
+      returnedVideo
+    );
   }
 
   async function resultPage(response, resultName, resultId, returnedImage) {
@@ -141,31 +159,54 @@ export default function SelectedPage({ route, navigation }) {
         />
       </View>
       <View style={styles.bottomContainer}>
-        <LinearGradient
-          colors={["rgba(155,168,213, 0)", "transparent"]}
-          style={styles.bottomGradient}
-        >
-          <Text style={styles.description}>
-            Please confirm selected video or upload a new one
-          </Text>
+        <View>
+          {isLoading ? (
+            <View style={styles.loadingContainer}>
+              <Animated.Image
+                style={{
+                  width: 100,
+                  height: 100,
+                  transform: [{ rotate: spin }],
+                }}
+                source={require("../assets/loading2.png")}
+              ></Animated.Image>
+              <Text style={styles.loadingTitle}>Uploading Video</Text>
+              <Text style={styles.loadingSubTitle}>
+                This might take a minute!
+              </Text>
+              <View style={styles.funFactContainer}>
+                <Text style={styles.loadingDescTitle}>Did you know:</Text>
+                <Text style={styles.loadingDesc}>{funFactsAr[2]}</Text>
+              </View>
+            </View>
+          ) : (
+            <LinearGradient
+              colors={["rgba(155,168,213, 0)", "transparent"]}
+              style={styles.bottomGradient}
+            >
+              <Text style={styles.description}>
+                Please confirm selected video or upload a new one
+              </Text>
 
-          <TouchableOpacity
-            title="Upload from Gallery"
-            style={styles.buttonContainer}
-            // onPress={sendToBackend}
-            onPress={sendBase64toBE}
-          >
-            <Text style={styles.buttonText}>Upload Video</Text>
-          </TouchableOpacity>
+              <TouchableOpacity
+                title="Upload from Gallery"
+                style={styles.buttonContainer}
+                // onPress={sendToBackend}
+                onPress={sendBase64toBE}
+              >
+                <Text style={styles.buttonText}>Upload Video</Text>
+              </TouchableOpacity>
 
-          <TouchableOpacity
-            title="Upload from Gallery"
-            style={styles.buttonContainer}
-            onPress={pickImageVideo}
-          >
-            <Text style={styles.buttonText}>Select New</Text>
-          </TouchableOpacity>
-        </LinearGradient>
+              <TouchableOpacity
+                title="Upload from Gallery"
+                style={styles.buttonContainer}
+                onPress={pickImageVideo}
+              >
+                <Text style={styles.buttonText}>Select New</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          )}
+        </View>
       </View>
     </View>
   );
@@ -244,5 +285,31 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     textAlign: "center",
     backgroundColor: "#000000c0",
+  },
+  loadingContainer: {
+    width: "100%",
+    display: "flex",
+    height: "90%",
+    justifyContent: "space-evenly",
+    alignItems: "center",
+  },
+  loadingTitle: {
+    fontSize: 22,
+    color: "rgb(51,115,190)",
+  },
+  loadingSubTitle: {
+    fontSize: 16,
+    color: "grey",
+  },
+  funFactContainer: {
+    width: "80%",
+  },
+  loadingDescTitle: {
+    fontSize: 17,
+    color: "rgb(171,100,100)",
+  },
+  loadingDesc: {
+    fontSize: 15,
+    color: "grey",
   },
 });

@@ -19,7 +19,7 @@ import { lessThan } from "react-native-reanimated";
 export default function ResultPage({ route, navigation }) {
   console.log(" -- Result Page -- ");
 
-  const { userName, userID, userImage } = route.params;
+  const { userName, userID, userImage, userVideo } = route.params;
   strUserImage = String(userImage);
   updatedUserImage = strUserImage.substring(2, strUserImage.length - 1);
 
@@ -27,22 +27,17 @@ export default function ResultPage({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.borderContainer}>
-        <View style={styles.topContainer}>
-          <Image style={styles.imageContainer} source={{ uri: base64Image }} />
-        </View>
-        <View style={styles.bottomContainer}>
-          <LinearGradient
-            colors={["rgba(155,168,213, 0)", "transparent"]}
-            style={styles.bottomGradient}
-          >
-            <Text style={styles.title}>Result</Text>
+      <View style={styles.topContainer}></View>
 
-            <Text style={styles.description}>Name:</Text>
-            <Text style={styles.resultText}>{userName}</Text>
-            <Text style={styles.description}>ID:</Text>
-            <Text style={styles.resultText}>{userID}</Text>
-          </LinearGradient>
+      <View style={styles.bottomContainer}>
+        <View style={styles.leftContainer}>
+          <Text style={styles.description}>Name:</Text>
+          <Text style={styles.resultText}>{userName}</Text>
+          <Text style={styles.description}>ID:</Text>
+          <Text style={styles.resultText}>{userID}</Text>
+        </View>
+        <View style={styles.rightContainer}>
+          <Image style={styles.imageContainer} source={{ uri: base64Image }} />
         </View>
       </View>
     </View>
@@ -58,33 +53,43 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
 
-  borderContainer: {
-    backgroundColor: "rgba(85,96,128,0.45)",
-    width: "80%",
-    height: "90%",
-    borderRadius: "20em",
-  },
   topContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    height: "50%",
+    backgroundColor: "red",
   },
   imageContainer: {
     margin: "5%",
-    width: "90%",
-    borderRadius: "20em",
+    width: "60%",
+    borderRadius: "50%",
     aspectRatio: "1",
   },
   bottomContainer: {
     alignSelf: "center",
-    height: "40%",
-    width: "65%",
+    height: "50%",
+    width: "100%",
     display: "flex",
     justifyContent: "center",
-    alignItems: "start",
+    alignItems: "center",
+    flexDirection: "row",
   },
-
+  leftContainer: {
+    width: "50%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
+  },
+  rightContainer: {
+    width: "50%",
+    height: "100%",
+    display: "flex",
+    justifyContent: "start",
+    alignItems: "center",
+  },
   title: {
     color: "rgb(50,50,50)",
     fontSize: 38,
