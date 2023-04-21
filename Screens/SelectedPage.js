@@ -19,6 +19,8 @@ import * as FileSystem from "expo-file-system";
 import Modal from "react-native-modal";
 
 export default function SelectedPage({ route, navigation }) {
+  let localIP = "192.168.1.144";
+
   const { videoId, videoUri } = route.params;
   const [isLoading, setIsLoading] = useState(false);
 
@@ -99,7 +101,7 @@ export default function SelectedPage({ route, navigation }) {
     // FETCH API
     const fetchResponse = await fetch(
       // Update IP
-      "http://192.168.1.144:5000/base64Endpoint",
+      "http://" + localIP + ":5000/base64Endpoint",
       {
         method: "POST",
         headers: {

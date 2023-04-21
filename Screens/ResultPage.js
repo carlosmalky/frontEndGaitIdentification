@@ -27,8 +27,16 @@ export default function ResultPage({ route, navigation }) {
 
   return (
     <View style={styles.container}>
-      <View style={styles.topContainer}></View>
-
+      <View style={styles.topContainer}>
+        <Video
+          style={styles.tempVideo}
+          useNativeControls
+          resizeMode="contain"
+          isLooping
+          shouldPlay
+          source={require("../assets/video_seg_demo.mp4")}
+        />
+      </View>
       <View style={styles.bottomContainer}>
         <View style={styles.leftContainer}>
           <Text style={styles.description}>Name:</Text>
@@ -52,14 +60,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
   },
-
+  tempVideo: {
+    marginTop: "10%",
+    alignSelf: "center",
+    width: "90%",
+    height: "80%",
+    borderRadius: "20%",
+  },
   topContainer: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
     height: "50%",
-    backgroundColor: "red",
   },
   imageContainer: {
     margin: "5%",
@@ -75,6 +88,7 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     flexDirection: "row",
+    paddingTop: "10%",
   },
   leftContainer: {
     width: "50%",
