@@ -19,7 +19,7 @@ import * as FileSystem from "expo-file-system";
 import Modal from "react-native-modal";
 
 export default function SelectedPage({ route, navigation }) {
-  let localIP = "192.168.1.144";
+  let localIP = "10.5.52.120";
 
   const { videoId, videoUri } = route.params;
   const [isLoading, setIsLoading] = useState(false);
