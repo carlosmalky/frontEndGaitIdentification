@@ -19,9 +19,9 @@ import { lessThan } from "react-native-reanimated";
 export default function ResultPage({ route, navigation }) {
   console.log(" -- Result Page -- ");
 
-  const { userName, userID, userImage, userVideo } = route.params;
-  strUserImage = String(userImage);
-  updatedUserImage = strUserImage.substring(2, strUserImage.length - 1);
+  const { userName, userID, userImage } = route.params;
+  let strUserImage = String(userImage);
+  let updatedUserImage = strUserImage.substring(2, strUserImage.length - 1);
 
   let base64Image = "data:image/png;base64," + updatedUserImage + "";
 
@@ -34,7 +34,7 @@ export default function ResultPage({ route, navigation }) {
           resizeMode="contain"
           isLooping
           shouldPlay
-          source={require("../assets/video_seg_demo.mp4")}
+          source={require("../assets/video_seg_walking.mp4")}
         />
       </View>
       <View style={styles.bottomContainer}>

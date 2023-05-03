@@ -19,7 +19,8 @@ import * as FileSystem from "expo-file-system";
 import Modal from "react-native-modal";
 
 export default function SelectedPage({ route, navigation }) {
-  let localIP = "10.5.52.120";
+  // let localIP = "10.5.52.120";
+  let localIP = "172.30.10.33";
 
   const { videoId, videoUri } = route.params;
   const [isLoading, setIsLoading] = useState(false);
@@ -121,16 +122,9 @@ export default function SelectedPage({ route, navigation }) {
     let returnedName = jsonData["userName"];
     let returnedId = jsonData["userID"];
     let returnedImage = jsonData["userImageBase64"];
-    let returnedVideo = jsonData["userVideoBase64"];
     setIsLoading(false);
 
-    resultPage(
-      returnedVal,
-      returnedName,
-      returnedId,
-      returnedImage,
-      returnedVideo
-    );
+    resultPage(returnedVal, returnedName, returnedId, returnedImage);
   }
 
   async function resultPage(response, resultName, resultId, returnedImage) {
